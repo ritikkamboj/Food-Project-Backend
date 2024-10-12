@@ -16,6 +16,9 @@ app.use(morgan('dev'))
 app.use(express.json());
 // app.use();
 
+//importing routes 
+
+app.use('/api/v1/test', require('./routes/testRouter'))
 
 // creating route and server
 
