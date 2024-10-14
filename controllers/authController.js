@@ -1,4 +1,7 @@
 const userModel = require("../models/userModel");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 
 const registerController = async (req, res) => {
     try {
@@ -20,10 +23,14 @@ const registerController = async (req, res) => {
             });
         }
 
+        //hashing our password 
+        var salt = bcrypt.genSaltSync(10);
+
+        const hashedPassword = await bcrypt.hash(password, salt);
         // create a new user
         const user = await userModel.create({
             userName,
-            password,
+            password: hashedPassword,
             phone,
             email,
             address,
@@ -31,6 +38,7 @@ const registerController = async (req, res) => {
         res.status(201).send({
             success: true,
             message: "Sucessfully Registered ",
+            user
         });
     } catch (err) {
         console.log(err);
@@ -53,7 +61,7 @@ const loginController = async (req, res) => {
             })
         }
         //chcking user 
-        const user = await userModel.findOne({ email: email, password: password })
+        const user = await userModel.findOne({ email: email })
 
         if (!user) {
             return res.status(404).send({
@@ -61,10 +69,22 @@ const loginController = async (req, res) => {
                 message: "User not exist "
             })
         }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(500).send({
+                success: false,
+                message: "invalid password "
+            })
+        }
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
+        user.password = undefined;
+
 
         res.status(201).send({
             success: true,
-            message: 'login successfully'
+            message: 'login successfully',
+            token,
+            user
         })
     }
     catch (err) {
@@ -73,7 +93,7 @@ const loginController = async (req, res) => {
         res.status(500).send({
             success: false,
             message: 'Error In Login API',
-            error
+            err
         })
     }
 
