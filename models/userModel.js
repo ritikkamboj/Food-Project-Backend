@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "user type is required "],
         default: "client",
-        enum: ["cleint", "admin", "vendor", "driver"],
+        enum: ["client", "admin", "vendor", "driver"],
     },
     profile: {
         type: String,
