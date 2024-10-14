@@ -3,9 +3,11 @@ const morgan = require('morgan');
 const colors = require('colors');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const connectDb = require("./config/db");
 
 dotenv.config();
 
+connectDb();
 
 const app = express();
 
