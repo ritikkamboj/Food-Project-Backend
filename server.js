@@ -20,7 +20,7 @@ app.use(express.json());
 
 //importing routes 
 
-app.use('/api/v1/test', require('./routes/testRouter'))
+app.use('/api/v1/test', require('./routes/testRouter'));
 
 // creating route and server
 
