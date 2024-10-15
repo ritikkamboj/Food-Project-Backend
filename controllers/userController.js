@@ -1,15 +1,34 @@
+const userModel = require("../models/userModel");
 
 const getUserController = async (req, res) => {
+
     try {
-        res.status(200).send('user data')
+        //find user 
+        const user = await userModel.findById({ _id: req.body.id })
+        //validation 
+        if (!user) {
+            return res.status(500).send({
+                success: false,
+                message: 'User not found'
+            })
+        }
+        //hide password 
+        user.password = undefined;
+
+        res.status(200).send({
+            success: true,
+            message: 'user get successfully',
+            user
+        })
     }
     catch (err) {
-        // res.status.send()
         console.log(err);
-        res.status(404).send('error')
+        res.status(500).send({
+            success: false,
+            message: 'Error in Get User API',
+            err
+        })
     }
-
-
 }
 
 module.exports = { getUserController };
