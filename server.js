@@ -23,6 +23,8 @@ app.use(express.json());
 app.use('/api/v1/test', require('./routes/testRouter'));
 
 app.use('/api/v1/auth', require('./routes/authRouter'));
+
+app.use('/api/v1/user', require('./routes/userRoute'))
 // creating route and server
 
 app.get("/", (req, res) => {
