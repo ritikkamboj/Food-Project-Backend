@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
         default:
             "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fprofile-picture_12225935&psig=AOvVaw0SX7fnoDhmDZhAaDUHtkTl&ust=1728976625511000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMDh4_6pjYkDFQAAAAAdAAAAABAL",
     },
+    answer: {
+        type: String,
+        required: [true, 'Ans is Required']
+    }
 }, { timestamps: true });
 
 
