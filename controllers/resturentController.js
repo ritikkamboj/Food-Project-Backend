@@ -54,4 +54,64 @@ const createResturentController = async (req, res) => {
     }
 };
 
-module.exports = { createResturentController };
+const getAllResturentController = async (req, res) => {
+    try {
+        const resturentAll = await resturentModel.find({});
+        if (!resturentAll) {
+            return res.status(500).send({
+                success: false,
+                message: "No Resturent found "
+            })
+        }
+        res.status(201).send({
+            success: true,
+            message: "Resturents fetched Successfully ",
+            resturentAll
+        })
+
+    }
+    catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "There is some error in get all resturent API",
+            err
+        })
+
+    }
+
+}
+
+const getResturent = async (req, res) => {
+    try {
+        const resturentId = req.params.id;
+        if (!resturentId) {
+            return res.status(500).send({
+                success: false,
+                message: "ResturentId not found"
+            })
+        }
+
+        const resturent = await resturentModel.findById(resturentId);
+        if (!resturent) {
+            return res.status(500).send({
+                success: false,
+                message: "Resturent not found for specific Id "
+            })
+        }
+
+        res.status(200).send({
+            success: true,
+            message: "Resturent found sucessfully",
+            resturent
+        })
+
+    }
+    catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "get Resturent by id API not working "
+        })
+    }
+
+}
+module.exports = { createResturentController, getAllResturentController, getResturent };
