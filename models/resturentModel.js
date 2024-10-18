@@ -49,11 +49,9 @@ const resturentSchema = new mongoose.Schema(
             longitude: { type: Number },
             longitudeDelta: { type: Number },
             address: {
-                type: String
+                type: String,
             },
-            title: { type: String }
-
-
+            title: { type: String },
         },
     },
     {

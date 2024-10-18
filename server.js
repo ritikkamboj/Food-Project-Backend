@@ -25,6 +25,9 @@ app.use('/api/v1/test', require('./routes/testRouter'));
 app.use('/api/v1/auth', require('./routes/authRouter'));
 
 app.use('/api/v1/user', require('./routes/userRoute'))
+
+app.use('/api/v1/resturent', require('./routes/resturentRoute'));
+
 // creating route and server
 
 app.get("/", (req, res) => {
