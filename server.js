@@ -28,7 +28,7 @@ app.use('/api/v1/user', require('./routes/userRoute'))
 
 app.use('/api/v1/resturent', require('./routes/resturentRoute'));
 
-app.use('api/v1/category', require('./routes/CategoryRouter'));
+app.use('/api/v1/category', require('./routes/CategoryRouter'));
 
 // creating route and server
 
