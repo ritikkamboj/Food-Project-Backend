@@ -61,4 +61,41 @@ const getAllCategoriesController = async (req, res) => {
     }
 
 }
-module.exports = { categoryCreateController, getAllCategoriesController };
+
+const updateCategoriesController = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        if (!categoryId) {
+            return res.status(500).send({
+                success: false,
+                message: "Please enter the valid category Id"
+            })
+        }
+        const { title, imageUrl } = req.body;
+
+        const category = await CategoryModel.findById(categoryId);
+        if (!category) {
+            return res.status(500).send({
+                success: false,
+                message: "category not found"
+            })
+        }
+        category.title = title;
+        category.imageUrl = imageUrl;
+        await category.save();
+
+        res.status(200).send({
+            success: true,
+            message: "Category Updated Successfully "
+        })
+
+
+    }
+    catch (err) {
+        res.status.send({
+            success: false,
+            message: "There is an error in category update Api"
+        })
+    }
+}
+module.exports = { categoryCreateController, getAllCategoriesController, updateCategoriesController };
