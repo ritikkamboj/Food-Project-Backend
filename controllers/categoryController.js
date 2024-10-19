@@ -45,6 +45,7 @@ const getAllCategoriesController = async (req, res) => {
 
         res.status(200).send({
             success: true,
+            quantity: allCategories.length,
             message: "Categories Fetched Successfully ",
             allCategories
         })
@@ -55,6 +56,7 @@ const getAllCategoriesController = async (req, res) => {
         console.log(err);
         res.status(500).send({
             success: false,
+
             message: "Get All Categories not working"
         })
 
@@ -98,4 +100,32 @@ const updateCategoriesController = async (req, res) => {
         })
     }
 }
-module.exports = { categoryCreateController, getAllCategoriesController, updateCategoriesController };
+
+const deleteCategoryController = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        if (!categoryId) {
+            return res.status(500).send({
+                success: false,
+                message: "Category Id not found"
+            })
+        }
+
+        await CategoryModel.findByIdAndDelete(categoryId);
+
+        res.status(200).send({
+            success: true,
+            message: "Category Deleted successfully "
+        })
+
+    }
+    catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "Deleting category Api not working"
+        })
+    }
+
+
+}
+module.exports = { categoryCreateController, getAllCategoriesController, updateCategoriesController, deleteCategoryController };
