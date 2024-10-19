@@ -32,4 +32,33 @@ const categoryCreateController = async (req, res) => {
 
 }
 
-module.exports = { categoryCreateController };
+const getAllCategoriesController = async (req, res) => {
+    try {
+        const allCategories = await CategoryModel.find({});
+        if (!allCategories) {
+            return res.status(500).send({
+                success: false,
+                message: "No Categories found inside DB",
+                allCategories
+            })
+        }
+
+        res.status(200).send({
+            success: true,
+            message: "Categories Fetched Successfully ",
+            allCategories
+        })
+
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            success: false,
+            message: "Get All Categories not working"
+        })
+
+    }
+
+}
+module.exports = { categoryCreateController, getAllCategoriesController };
