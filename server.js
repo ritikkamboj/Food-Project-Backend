@@ -30,6 +30,8 @@ app.use('/api/v1/resturent', require('./routes/resturentRoute'));
 
 app.use('/api/v1/category', require('./routes/CategoryRouter'));
 
+app.use('/api/v1/food', require('./routes/foodRouter'));
+
 // creating route and server
 
 app.get("/", (req, res) => {

@@ -1,4 +1,4 @@
-const mongoose = request("mongoose");
+const mongoose = require("mongoose");
 
 const foodSchema = new mongoose.Schema({
     title: {
@@ -35,7 +35,7 @@ const foodSchema = new mongoose.Schema({
     description:
     {
         type: String,
-        required: [true, 'Description is required'];
+        required: [true, 'Description is required']
 
     },
     price:
