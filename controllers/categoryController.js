@@ -4,33 +4,32 @@ const categoryCreateController = async (req, res) => {
     try {
         const { title, imageUrl } = req.body;
 
-        const catCreated = await CategoryModel.create({ title: title, imageUrl: imageUrl });
+        const catCreated = await CategoryModel.create({
+            title: title,
+            imageUrl: imageUrl,
+        });
         if (!title) {
             return res.status(500).send({
                 success: false,
-                message: "No Category created "
-            })
-
+                message: "No Category created ",
+            });
         }
 
         res.status(201).send({
             success: true,
             message: "Category created Successfully ",
-            catCreated
-        })
+            catCreated,
+        });
         await catCreated.save();
-
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
 
         res.status(500).send({
             success: false,
-            message: "There is some error in create category Api "
-        })
+            message: "There is some error in create category Api ",
+        });
     }
-
-}
+};
 
 const getAllCategoriesController = async (req, res) => {
     try {
@@ -39,30 +38,25 @@ const getAllCategoriesController = async (req, res) => {
             return res.status(500).send({
                 success: false,
                 message: "No Categories found inside DB",
-                allCategories
-            })
+                allCategories,
+            });
         }
 
         res.status(200).send({
             success: true,
             quantity: allCategories.length,
             message: "Categories Fetched Successfully ",
-            allCategories
-        })
-
-
-    }
-    catch (err) {
+            allCategories,
+        });
+    } catch (err) {
         console.log(err);
         res.status(500).send({
             success: false,
 
-            message: "Get All Categories not working"
-        })
-
+            message: "Get All Categories not working",
+        });
     }
-
-}
+};
 
 const updateCategoriesController = async (req, res) => {
     try {
@@ -70,8 +64,8 @@ const updateCategoriesController = async (req, res) => {
         if (!categoryId) {
             return res.status(500).send({
                 success: false,
-                message: "Please enter the valid category Id"
-            })
+                message: "Please enter the valid category Id",
+            });
         }
         const { title, imageUrl } = req.body;
 
@@ -79,8 +73,8 @@ const updateCategoriesController = async (req, res) => {
         if (!category) {
             return res.status(500).send({
                 success: false,
-                message: "category not found"
-            })
+                message: "category not found",
+            });
         }
         category.title = title;
         category.imageUrl = imageUrl;
@@ -88,18 +82,15 @@ const updateCategoriesController = async (req, res) => {
 
         res.status(200).send({
             success: true,
-            message: "Category Updated Successfully "
-        })
-
-
-    }
-    catch (err) {
+            message: "Category Updated Successfully ",
+        });
+    } catch (err) {
         res.status.send({
             success: false,
-            message: "There is an error in category update Api"
-        })
+            message: "There is an error in category update Api",
+        });
     }
-}
+};
 
 const deleteCategoryController = async (req, res) => {
     try {
@@ -107,25 +98,26 @@ const deleteCategoryController = async (req, res) => {
         if (!categoryId) {
             return res.status(500).send({
                 success: false,
-                message: "Category Id not found"
-            })
+                message: "Category Id not found",
+            });
         }
 
         await CategoryModel.findByIdAndDelete(categoryId);
 
         res.status(200).send({
             success: true,
-            message: "Category Deleted successfully "
-        })
-
-    }
-    catch (err) {
+            message: "Category Deleted successfully ",
+        });
+    } catch (err) {
         res.status(500).send({
             success: false,
-            message: "Deleting category Api not working"
-        })
+            message: "Deleting category Api not working",
+        });
     }
-
-
-}
-module.exports = { categoryCreateController, getAllCategoriesController, updateCategoriesController, deleteCategoryController };
+};
+module.exports = {
+    categoryCreateController,
+    getAllCategoriesController,
+    updateCategoriesController,
+    deleteCategoryController,
+};
