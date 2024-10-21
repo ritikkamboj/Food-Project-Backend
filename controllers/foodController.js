@@ -112,4 +112,42 @@ const getFoodController = async (req, res) => {
     }
 
 }
-module.exports = { createFoodController, getAllFoodController, getFoodController };
+
+const getFoodByResturentController = async (req, res) => {
+
+    try {
+        const resturentId = req.params.id;
+        if (!resturentId) {
+            return res.status(500).send({
+                success: false,
+                message: "There is no foodId found "
+            })
+
+        }
+        const food = await foodModel.find({ resturent: resturentId });
+        if (!food) {
+            return res.status(500).send({
+                success: false,
+                message: "There is no food found "
+            })
+        }
+
+        res.status(200).send({
+            success: true,
+            message: "Food gets Successfully ",
+            foodItems: food.length,
+            food
+        })
+    }
+    catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "There is some error in get food Api by Resturent "
+        })
+
+
+    }
+
+
+}
+module.exports = { createFoodController, getAllFoodController, getFoodController, getFoodByResturentController };
