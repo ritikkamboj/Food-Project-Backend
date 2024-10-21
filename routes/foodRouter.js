@@ -1,6 +1,6 @@
 const express = require('express');
 const { authMiddleware } = require('../middlewares/authMiddleware');
-const { createFoodController, getAllFoodController, getFoodController, getFoodByResturentController, updateFoodController, deleteFoodController } = require('../controllers/foodController');
+const { createFoodController, getAllFoodController, getFoodController, getFoodByResturentController, updateFoodController, deleteFoodController, placeOrderController } = require('../controllers/foodController');
 
 const route = express.Router();
 
@@ -12,4 +12,8 @@ route.get('/getFoodByResturent/:id', getFoodByResturentController)
 route.put('/updateFood/:id', authMiddleware, updateFoodController)
 route.delete('/deleteFood/:id', authMiddleware, deleteFoodController)
 
+
+//place Order
+
+route.post('/placeOrder', authMiddleware, placeOrderController)
 module.exports = route;
