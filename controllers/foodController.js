@@ -49,4 +49,32 @@ const createFoodController = async (req, res) => {
     }
 };
 
-module.exports = { createFoodController };
+
+const getAllFoodController = async (req, res) => {
+    try {
+        const allFood = await foodModel.find();
+        if (!allFood) {
+            return res.status(500).send({
+                success: false,
+                message: "No food items availaible "
+            })
+        }
+
+        res.status(200).send({
+            success: true,
+            message: "Results gets Successfully ",
+            totalFoods: allFood.length,
+            allFood
+
+        })
+
+    }
+    catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "There is some error in get all food Api "
+        })
+
+    }
+}
+module.exports = { createFoodController, getAllFoodController };
