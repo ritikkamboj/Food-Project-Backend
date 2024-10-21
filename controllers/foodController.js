@@ -49,34 +49,29 @@ const createFoodController = async (req, res) => {
     }
 };
 
-
 const getAllFoodController = async (req, res) => {
     try {
         const allFood = await foodModel.find();
         if (!allFood) {
             return res.status(500).send({
                 success: false,
-                message: "No food items availaible "
-            })
+                message: "No food items availaible ",
+            });
         }
 
         res.status(200).send({
             success: true,
             message: "Results gets Successfully ",
             totalFoods: allFood.length,
-            allFood
-
-        })
-
-    }
-    catch (err) {
+            allFood,
+        });
+    } catch (err) {
         res.status(500).send({
             success: false,
-            message: "There is some error in get all food Api "
-        })
-
+            message: "There is some error in get all food Api ",
+        });
     }
-}
+};
 
 const getFoodController = async (req, res) => {
     try {
@@ -84,70 +79,149 @@ const getFoodController = async (req, res) => {
         if (!foodId) {
             return res.status(500).send({
                 success: false,
-                message: "There is no foodId found "
-            })
-
+                message: "There is no foodId found ",
+            });
         }
         const food = await foodModel.findById(foodId);
         if (!food) {
             return res.status(500).send({
                 success: false,
-                message: "There is no foodId found "
-            })
+                message: "There is no foodId found ",
+            });
         }
 
         res.status(200).send({
             success: true,
             message: "Food gets Successfully ",
-            food
-        })
-    }
-    catch (err) {
+            food,
+        });
+    } catch (err) {
         res.status(500).send({
             success: false,
-            message: "There is some error in get food Api "
-        })
-
-
+            message: "There is some error in get food Api ",
+        });
     }
-
-}
+};
 
 const getFoodByResturentController = async (req, res) => {
-
     try {
         const resturentId = req.params.id;
         if (!resturentId) {
             return res.status(500).send({
                 success: false,
-                message: "There is no foodId found "
-            })
-
+                message: "There is no foodId found ",
+            });
         }
         const food = await foodModel.find({ resturent: resturentId });
         if (!food) {
             return res.status(500).send({
                 success: false,
-                message: "There is no food found "
-            })
+                message: "There is no food found ",
+            });
         }
 
         res.status(200).send({
             success: true,
             message: "Food gets Successfully ",
             foodItems: food.length,
-            food
+            food,
+        });
+    } catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "There is some error in get food Api by Resturent ",
+        });
+    }
+};
+
+const updateFoodController = async (req, res) => {
+    try {
+        const {
+            title,
+            foodTags,
+            category,
+            code,
+            isAvailaible,
+            resturent,
+            rating,
+            ratingCount,
+            description,
+            price,
+            imageUrl,
+        } = req.body;
+
+        const foodId = req.params.id;
+        if (!foodId) {
+            return res.status(500).send({
+                success: false,
+                message: "There is no foodId found",
+            });
+        }
+
+        const updatedFood = await foodModel.findByIdAndUpdate(foodId, {
+            title,
+            foodTags,
+            category,
+            code,
+            isAvailaible,
+            resturent,
+            rating,
+            ratingCount,
+            description,
+            price,
+            imageUrl,
+        }, {
+            new: true
+
         })
+        res.status(200).send({
+            success: true,
+            message: "Data Updated successfully ",
+            updatedFood
+        })
+    } catch (err) {
+        res.status(500).send({
+            success: false,
+            message: "There is some error in update food Api ",
+        });
+    }
+};
+
+const deleteFoodController = async (req, res) => {
+    try {
+        const foodId = req.params.id;
+        if (!foodId) {
+            return res.status(500).send({
+                success: false,
+                message: "There is no foodId found",
+            });
+        }
+
+        await foodModel.findByIdAndDelete(foodId);
+
+        // await foodModel.save();
+        res.status(200).send({
+            success: true,
+            message: "Data deleted Successfully "
+        })
+
+
+
     }
     catch (err) {
         res.status(500).send({
             success: false,
-            message: "There is some error in get food Api by Resturent "
-        })
-
+            message: "There is some error in delete food Api",
+        });
 
     }
 
-
 }
-module.exports = { createFoodController, getAllFoodController, getFoodController, getFoodByResturentController };
+module.exports = {
+    createFoodController,
+    getAllFoodController,
+    getFoodController,
+    getFoodByResturentController,
+    updateFoodController,
+    deleteFoodController
+};
